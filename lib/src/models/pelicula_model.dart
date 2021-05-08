@@ -62,4 +62,10 @@ class Pelicula {
     this.voteAverage = json["vote_average"] / 1;
     this.voteCount = json["vote_count"];
   }
+
+  getPosterImg(){
+      return this.posterPath == null ?
+        "https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg" :
+        "https://image.tmdb.org/t/p/w500/${this.posterPath}";
+  }
 }
