@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:peliculas/src/models/pelicula_model.dart';
 
 class CardSwiper extends StatelessWidget {
 
-  final List<dynamic> items;
+  final List<Pelicula> items;
 
   CardSwiper({ @required this.items });
 
@@ -20,10 +21,11 @@ class CardSwiper extends StatelessWidget {
           itemBuilder: (BuildContext context,int index){
             return ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
-              child: 
-              Image.network(
-              "https://i1.wp.com/codigoespagueti.com/wp-content/uploads/2018/05/pikachu.jpg?resize=1080%2C608&quality=80&ssl=1",
-              fit: BoxFit.cover)
+              child: FadeInImage(
+                image: NetworkImage(this.items[index].getPosterImg()),
+                placeholder: AssetImage('assets/img/no-image.jpg'),
+                fit: BoxFit.cover,
+              )
             );
           },
           itemCount: items.length,
