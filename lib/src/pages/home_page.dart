@@ -62,11 +62,14 @@ class HomePage extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle1),
           ),
           SizedBox(height: 5.0,),
-          FutureBuilder(
-            future: peliculasProvider.getPopulares(),
+          StreamBuilder(
+            stream: peliculasProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               return snapshot.hasData ?
-                MovieHorizontal(peliculas: snapshot.data) :
+                MovieHorizontal(
+                  peliculas: snapshot.data,
+                  siguientePagina: peliculasProvider.getPopulares,
+                ) :
                 Center(child: CircularProgressIndicator());
             },
           ),
