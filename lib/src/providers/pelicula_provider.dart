@@ -10,6 +10,7 @@ class PeliculasProvider{
   String _languaje = env["LANGUAGE"];
 
   int _popularesPage = 0;
+  bool _cargando = false;
 
   PeliculasProvider(){
     this.getPopulares();
@@ -42,6 +43,10 @@ class PeliculasProvider{
   }
 
   Future<List<Pelicula>> getPopulares() async {
+    if(_cargando){
+      return [];
+    }
+    _cargando = true;
     _popularesPage++;
     final url = Uri.https(_url, "3/movie/popular", {
       'api_key': _apikey,
@@ -53,7 +58,7 @@ class PeliculasProvider{
     _populares.addAll(response);
 
     popularesSink(_populares);
-
+    _cargando = false;
     return response;
   }
 }
