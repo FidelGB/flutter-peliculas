@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas/src/models/actores_model.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
+import 'package:peliculas/src/providers/pelicula_provider.dart';
 
 class PeliculaDetalle extends StatelessWidget {
   @override
@@ -19,9 +21,7 @@ class PeliculaDetalle extends StatelessWidget {
                 ),
                 _posterTitulo(pelicula, context),
                 _descripcion(pelicula),
-                _descripcion(pelicula),
-                _descripcion(pelicula),
-                _descripcion(pelicula),
+                _crearCasting(pelicula)
               ]
             ),
           )
@@ -112,4 +112,57 @@ class PeliculaDetalle extends StatelessWidget {
       ),
     );
   }
+
+  Widget _crearCasting(Pelicula pelicula){
+    final peliProvider = PeliculasProvider();
+    return FutureBuilder(
+      future: peliProvider.getCast(pelicula.id),
+      builder: (BuildContext context, AsyncSnapshot<List<ActorModel>> snapshot) {
+        return snapshot.hasData ? 
+          _crearActoresPageView(snapshot.data, context) :
+          Center(
+            child: CircularProgressIndicator()
+          );
+      },
+    );
+  }
+
+  Widget _crearActoresPageView(List<ActorModel> actores, BuildContext context){
+    return SizedBox(
+      height: 200.0,
+      child: PageView.builder(
+        pageSnapping: false,
+        controller: PageController(
+          viewportFraction: 0.3,
+          initialPage: 1
+        ),
+        itemCount: actores.length,
+        itemBuilder: (BuildContext context, int i){
+          return _actorTarjeta(actores[i], context);
+        },
+      ),
+    );
+  }
+
+  Widget _actorTarjeta(ActorModel actor, BuildContext context) => Container(
+    child: Column(
+      
+      children: <Widget>[
+        ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: FadeInImage(
+            placeholder: AssetImage("assets/img/no-image.jpg"),
+            image: NetworkImage(actor.getProfileImg()),
+            height: 150.0,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Text(
+          actor.name,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.bodyText2,
+        )
+      ],
+    ),
+  );
 }
