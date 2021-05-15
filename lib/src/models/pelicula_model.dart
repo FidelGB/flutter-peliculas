@@ -68,4 +68,10 @@ class Pelicula {
         "https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg" :
         "https://image.tmdb.org/t/p/w500/${this.posterPath}";
   }
+
+  getBackdropPath(){
+    return this.backdropPath == null ? 
+      "https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg" :
+      "https://image.tmdb.org/t/p/w500/${this.backdropPath}";
+  }
 }
