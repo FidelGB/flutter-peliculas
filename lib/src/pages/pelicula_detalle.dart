@@ -128,19 +128,30 @@ class PeliculaDetalle extends StatelessWidget {
   }
 
   Widget _crearActoresPageView(List<ActorModel> actores, BuildContext context){
-    return SizedBox(
-      height: 200.0,
-      child: PageView.builder(
-        pageSnapping: false,
-        controller: PageController(
-          viewportFraction: 0.3,
-          initialPage: 1
+    return Column(
+      children: [
+        Text(
+          "Reparto",
+          style: Theme.of(context).textTheme.subtitle1,
         ),
-        itemCount: actores.length,
-        itemBuilder: (BuildContext context, int i){
-          return _actorTarjeta(actores[i], context);
-        },
-      ),
+        Divider(
+          color: Colors.transparent,
+        ),
+        SizedBox(
+          height: 200.0,
+          child: PageView.builder(
+            pageSnapping: false,
+            controller: PageController(
+              viewportFraction: 0.3,
+              initialPage: 1
+            ),
+            itemCount: actores.length,
+            itemBuilder: (BuildContext context, int i){
+              return _actorTarjeta(actores[i], context);
+            },
+          ),
+        ),
+      ],
     );
   }
 
